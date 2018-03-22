@@ -2,8 +2,12 @@ package com.banana.arduinocontroller;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +30,9 @@ Button settings;
             }
         });
         subscribeSharedPreferenceChanges();
+
         }
+
 
     @Override
     protected void onDestroy() {
@@ -57,5 +63,18 @@ Button settings;
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         if (s.equals("pref_theme")){
             recreate();}
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActionBar actionBar = getSupportActionBar();
+        Drawable drawable = new ColorDrawable(getToolbarColor());
+        actionBar.setBackgroundDrawable(drawable);
+    }
+    private int getToolbarColor() {
+        SharedPreferences preferencess = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        int color = preferencess.getInt("pref_toolBar_color", Color.BLUE);
+        return color;
     }
 }

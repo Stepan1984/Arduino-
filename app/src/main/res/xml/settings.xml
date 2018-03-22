@@ -7,10 +7,17 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Bluetooth address" />
+
     <ListPreference
         android:defaultValue="1"
         android:entries="@array/themes_titles"
         android:entryValues="@array/themes_titles"
         android:key="pref_theme"
         android:title="Theme" />
+    <com.kizitonwose.colorpreference.ColorPreference
+        android:defaultValue="@color/colorPrimaryDark"
+        android:key="pref_toolBar_color" />
+
+
 </PreferenceScreen>
+

@@ -2,6 +2,7 @@ package com.banana.arduinocontroller;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -12,20 +13,21 @@ import android.view.View;
 
 
 public class Main_Activity_Controller extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         updateTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        toolbar = findViewById(R.id.Toolbar);
         addPreferencesFromResource(R.xml.settings);
-        Toolbar toolbar = findViewById(R.id.Toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View v){
                     finish();
                 }
         });
+        toolbar.setBackgroundColor(getToolbarColor());
     }
 
     @Override
@@ -37,6 +39,7 @@ public class Main_Activity_Controller extends PreferenceActivity implements Shar
 
         updateBluetoothAddressSummary();
         updateThemeSummary();
+
     }
 
     @Override
@@ -64,6 +67,8 @@ public class Main_Activity_Controller extends PreferenceActivity implements Shar
             recreate();
         } else if (s.equals("pref_address")) {
             updateBluetoothAddressSummary();
+        } else if (s.equals("pref_toolBar_color")){
+            toolbar.setBackgroundColor(getToolbarColor());
         }
     }
 
@@ -78,5 +83,10 @@ public class Main_Activity_Controller extends PreferenceActivity implements Shar
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String value = preferences.getString("pref_theme","default");
         preference.setSummary(value);
+    }
+    private int getToolbarColor() {
+        SharedPreferences preferencess = PreferenceManager.getDefaultSharedPreferences(Main_Activity_Controller.this);
+        int color = preferencess.getInt("pref_toolBar_color", Color.BLUE);
+        return color;
     }
 }
